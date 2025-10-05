@@ -1,7 +1,7 @@
 :root {
   --bg:#0b0f14; --fg:#e8eef5; --muted:#9fb0c0;
   --acc:#2d66ff; --danger:#ff4d4d; --card:#121821; --line:#1c2430;
-  --tap:56px; /* minimum touch size */
+  --tap:56px;
 }
 @media (prefers-color-scheme: light){
   :root{ --bg:#f7f9fc; --fg:#0c1116; --muted:#526173; --card:#ffffff; --line:#e7eaf0; }
@@ -31,7 +31,21 @@ button{font:inherit;border:0;border-radius:14px;padding:0 16px;height:var(--tap)
 
 .utils{display:flex;gap:10px;align-items:center;justify-content:space-between}
 .time-presets{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.time-slider{display:flex;align-items:center;gap:10px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.time-slider{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px}
 input[type="range"]{width:100%}
 .log{max-height:30vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px}
+
+/* ===== Advanced panels ===== */
+.advanced{display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+.panel > summary{cursor:pointer;font-weight:700;margin:-12px -12px 12px -12px;padding:12px;border-bottom:1px solid var(--line)}
+.lbl{display:block;margin-bottom:6px;color:var(--muted);font-size:.9rem}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.inp{height:var(--tap);border-radius:12px;border:1px solid var(--line);background:#0e141d;color:var(--fg);padding:0 12px;min-width:120px}
+.inp.small{min-width:64px;width:80px;text-align:center}
+.assumptions{display:flex;gap:10px;flex-wrap:wrap}
+.grid.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.output{margin-top:10px;border:1px dashed var(--line);border-radius:12px;padding:10px;white-space:pre-wrap}
+.output.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 @media (min-width:900px){ .layout{max-width:820px;margin:0 auto} }
