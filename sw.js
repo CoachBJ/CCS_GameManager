@@ -1,4 +1,4 @@
-const VERSION = 'v4'; // bump this after any deploy
+const VERSION = 'v5'; // bump this after any deploy
 const SCOPE = new URL(self.registration.scope).pathname; // "/CCS_GameManager/"
 const PRECACHE = [
   '', 'index.html', 'style.css', 'app.js',
