@@ -3,211 +3,106 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="manifest" href="manifest.webmanifest">
-  <title>Charlotte Christian — Game Manager</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0b0f14" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Game Manager</title>
 </head>
 <body>
-  <main>
-    <header class="appbar">
-      <div class="brand">
-        <div class="brand-mark">CC</div>
-        <div class="brand-text">
-          <div class="brand-title">Charlotte Christian</div>
-          <div class="brand-sub">Game Manager</div>
+  <header class="appbar">
+    <div class="period">
+      <label for="period">Period</label>
+      <select id="period" aria-label="Period">
+        <option>1</option><option>2</option><option>3</option><option>4</option>
+        <option>OT</option>
+      </select>
+    </div>
+
+    <div class="clock" aria-live="polite">
+      <span id="clockDisplay">12:00</span>
+    </div>
+
+    <div class="clock-ctrl">
+      <button id="startBtn" class="btn primary">▶︎</button>
+      <button id="pauseBtn" class="btn">❚❚</button>
+      <button id="resetBtn" class="btn">↺</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- HOME ROW -->
+    <section class="team-row" data-team="home">
+      <div class="team-left">
+        <h2 contenteditable="true" class="team-name" id="homeName">HOME</h2>
+        <div class="score-wrap">
+          <button class="btn ghost minus" data-action="minus" data-team="home">−</button>
+          <div class="score" id="homeScore" aria-live="polite">0</div>
+          <div class="tos" role="group" aria-label="Home timeouts">
+            <input type="checkbox" id="hto1" /><label for="hto1"></label>
+            <input type="checkbox" id="hto2" /><label for="hto2"></label>
+            <input type="checkbox" id="hto3" /><label for="hto3"></label>
+          </div>
         </div>
       </div>
-      <button id="resetGame" class="btn btn-ghost">Reset Game</button>
-    </header>
+      <div class="quick-scores">
+        <button class="btn score" data-team="home" data-points="1">+1</button>
+        <button class="btn score" data-team="home" data-points="2">+2</button>
+        <button class="btn score" data-team="home" data-points="3">+3</button>
+        <button class="btn score" data-team="home" data-points="6">+6</button>
+        <button class="btn score" data-team="home" data-points="7">+7</button>
+        <button class="btn score" data-team="home" data-points="8">+8</button>
+      </div>
+    </section>
 
-    <div id="banner"></div>
-
-    <div class="layout">
-      <!-- SCOREBOARD -->
-      <section class="card area-score">
-        <h2 class="section-title">Scoreboard</h2>
-
-        <!-- Opponent profile / theme -->
-        <div class="row compact">
-          <label>Opponent</label>
-          <input id="oppName" type="text" value="Opponent" />
-          <div class="color-pick">
-            <span class="muted">Color</span>
-            <input id="oppColor" type="color" value="#9a9a9a" />
+    <!-- AWAY ROW -->
+    <section class="team-row" data-team="away">
+      <div class="team-left">
+        <h2 contenteditable="true" class="team-name" id="awayName">AWAY</h2>
+        <div class="score-wrap">
+          <button class="btn ghost minus" data-action="minus" data-team="away">−</button>
+          <div class="score" id="awayScore" aria-live="polite">0</div>
+          <div class="tos" role="group" aria-label="Away timeouts">
+            <input type="checkbox" id="ato1" /><label for="ato1"></label>
+            <input type="checkbox" id="ato2" /><label for="ato2"></label>
+            <input type="checkbox" id="ato3" /><label for="ato3"></label>
           </div>
         </div>
+      </div>
+      <div class="quick-scores">
+        <button class="btn score" data-team="away" data-points="1">+1</button>
+        <button class="btn score" data-team="away" data-points="2">+2</button>
+        <button class="btn score" data-team="away" data-points="3">+3</button>
+        <button class="btn score" data-team="away" data-points="6">+6</button>
+        <button class="btn score" data-team="away" data-points="7">+7</button>
+        <button class="btn score" data-team="away" data-points="8">+8</button>
+      </div>
+    </section>
 
-        <div class="score-grid">
-          <div class="score-card">
-            <div class="score-label"><span id="ourLabel">Charlotte Christian</span></div>
-            <input id="ourScore" type="number" inputmode="numeric" value="0" class="score-input" />
-            <div class="quick-row">
-              <button class="chip" data-team="our" data-delta="2">+2</button>
-              <button class="chip" data-team="our" data-delta="3">+3</button>
-              <button class="chip" data-team="our" data-delta="6">+6</button>
-              <button class="chip" data-team="our" data-delta="7">+7</button>
-              <button class="chip" data-team="our" data-delta="8">+8</button>
-            </div>
-          </div>
-          <div class="score-card">
-            <div class="score-label"><span id="oppLabel">Opponent</span></div>
-            <input id="oppScore" type="number" inputmode="numeric" value="0" class="score-input" />
-            <div class="quick-row">
-              <button class="chip opp" data-team="opp" data-delta="2">+2</button>
-              <button class="chip opp" data-team="opp" data-delta="3">+3</button>
-              <button class="chip opp" data-team="opp" data-delta="6">+6</button>
-              <button class="chip opp" data-team="opp" data-delta="7">+7</button>
-              <button class="chip opp" data-team="opp" data-delta="8">+8</button>
-            </div>
-          </div>
-        </div>
+    <section class="row utils">
+      <div class="possession" role="group" aria-label="Possession">
+        <button id="posHome" class="btn toggle on">⬤ HOME</button>
+        <button id="posAway" class="btn toggle">○ AWAY</button>
+      </div>
+      <button id="undoBtn" class="btn ghost">Undo last</button>
+    </section>
 
-        <div class="row toggles compact">
-          <label><input id="who-auto" name="who" type="radio" checked> Auto</label>
-          <label><input id="who-us"   name="who" type="radio"> Charlotte Christian needs</label>
-          <label><input id="who-opp"  name="who" type="radio"> Opponent needs</label>
-        </div>
+    <section class="row quick-time">
+      <div class="time-presets">
+        <button class="btn tset" data-time="15:00">15:00</button>
+        <button class="btn tset" data-time="12:00">12:00</button>
+        <button class="btn tset" data-time="10:00">10:00</button>
+        <button class="btn tset" data-time="08:00">08:00</button>
+        <button class="btn tset" data-time="02:00">02:00</button>
+      </div>
+      <div class="time-slider">
+        <input type="range" id="timeSlider" min="0" max="3600" step="1" value="720">
+        <span id="timeSliderLabel">12:00</span>
+      </div>
+    </section>
 
-        <!-- PAT vs 2-pt helper -->
-        <div class="card-sub">
-          <div class="row compact">
-            <label>PAT vs 2-pt</label>
-            <div class="pct-wrap">
-              <span class="muted">XP%</span><input id="xpPct" type="number" min="0" max="100" value="95">
-              <span class="muted">2-pt%</span><input id="twoPct" type="number" min="0" max="100" value="45">
-            </div>
-          </div>
-          <div id="patAdvice" class="muted"></div>
-        </div>
-
-        <div class="row compact">
-          <label>Max results</label>
-          <input id="cap" type="number" inputmode="numeric" value="200" />
-        </div>
-
-        <div class="row toggles compact">
-          <label><input id="view-table" type="radio" name="view" checked> Table</label>
-          <label><input id="view-row"   type="radio" name="view"> One Row</label>
-        </div>
-
-        <button id="calc" class="btn btn-primary">Calculate</button>
-        <p id="status" class="muted"></p>
-      </section>
-
-      <!-- CLOCK + TIMEOUTS -->
-      <section class="card area-clock">
-        <div class="section-head">
-          <h2 class="section-title">Game Clock & Timeouts</h2>
-        </div>
-
-        <div class="row toggles compact">
-          <label><input type="radio" name="half" id="half1" checked> 1st Half</label>
-          <label><input type="radio" name="half" id="half2"> 2nd Half</label>
-        </div>
-
-        <div class="row time-row">
-          <label>Time left</label>
-          <div class="time-manual">
-            <input id="timeInput" type="text" inputmode="numeric" placeholder="mm:ss" value="24:00" />
-          </div>
-          <div class="tinyBtns">
-            <button class="mini" data-dt="-10">-10s</button>
-            <button class="mini" data-dt="+10">+10s</button>
-          </div>
-        </div>
-
-        <!-- Voice control -->
-        <div class="row compact">
-          <label>Voice</label>
-          <div class="voice-wrap">
-            <button id="micBtn" class="btn btn-primary mic">
-              <span id="micIcon">🎤</span><span id="micText">Start</span>
-            </button>
-            <span id="micStatus" class="muted"></span>
-          </div>
-        </div>
-
-        <div class="grid2">
-          <div class="to-card">
-            <div class="to-title">Charlotte Christian TOs — 1st</div>
-            <div class="to-checks" id="group-our-h1" data-key="our-h1">
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-            </div>
-          </div>
-          <div class="to-card">
-            <div class="to-title">Opponent TOs — 1st</div>
-            <div class="to-checks" id="group-opp-h1" data-key="opp-h1">
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-            </div>
-          </div>
-          <div class="to-card">
-            <div class="to-title">Charlotte Christian TOs — 2nd</div>
-            <div class="to-checks" id="group-our-h2" data-key="our-h2">
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-            </div>
-          </div>
-          <div class="to-card">
-            <div class="to-title">Opponent TOs — 2nd</div>
-            <div class="to-checks" id="group-opp-h2" data-key="opp-h2">
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-              <label><input type="checkbox" checked><span>TO</span></label>
-            </div>
-          </div>
-        </div>
-
-        <div class="tinyBtns">
-          <button id="useOurTO" class="mini">Use CC TO (current half)</button>
-          <button id="useOppTO" class="mini opp">Use Opp TO (current half)</button>
-        </div>
-
-        <div class="subhead">Clock Helper</div>
-        <div class="row toggles compact">
-          <label><input type="radio" name="ball" id="ballUs" checked> Charlotte Christian has ball</label>
-          <label><input type="radio" name="ball" id="ballThem"> Opponent has ball</label>
-        </div>
-        <div class="row compact">
-          <label>Snaps this series</label>
-          <input id="snaps" type="number" min="1" max="4" value="3" />
-        </div>
-        <div class="row compact">
-          <label>Play clock</label>
-          <input id="playClock" type="number" min="20" max="45" value="40" />
-        </div>
-        <div class="row compact">
-          <label>Avg play time</label>
-          <input id="playTime" type="number" min="1" max="15" value="6" />
-        </div>
-        <div id="clockResult" class="muted"></div>
-      </section>
-
-      <!-- OUTPUT -->
-      <section id="output" class="area-output"></section>
-
-      <!-- GAME LOG -->
-      <section class="card area-log">
-        <h2 class="section-title">Game Log</h2>
-        <div class="log-controls">
-          <button id="undoLog" class="btn btn-ghost">Undo last</button>
-          <button id="clearLog" class="btn btn-ghost">Clear</button>
-          <button id="exportLog" class="btn btn-ghost">Export CSV</button>
-        </div>
-        <div id="logList" class="log-list"></div>
-      </section>
-    </div>
+    <section class="log" id="log" aria-live="polite" aria-label="Game log"></section>
   </main>
 
-  <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
-  </script>
+  <script src="app.js" defer></script>
 </body>
 </html>
