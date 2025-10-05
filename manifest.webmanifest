@@ -1,20 +1,14 @@
 {
-  "name": "Scoring Options",
-  "short_name": "Scoring",
-  "start_url": "./",
+  "id": "/CCS_GameManager/",
+  "name": "CCS Game Manager",
+  "short_name": "CCS GM",
+  "start_url": "/CCS_GameManager/",
+  "scope": "/CCS_GameManager/",
   "display": "standalone",
-  "background_color": "#0f1115",
-  "theme_color": "#0f1115",
+  "background_color": "#0b0f14",
+  "theme_color": "#0b0f14",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/CCS_GameManager/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/CCS_GameManager/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
   ]
 }
