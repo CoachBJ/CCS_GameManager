@@ -4,17 +4,37 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b0f14" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Game Manager</title>
+  <meta name="description" content="CCS Game Manager — fast, offline scoreboard with timeout and scoring tools." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon-180.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./style.css" />
+
+  <title>CCS Game Manager</title>
+
+  <script>
+    // Service worker (works under /CCS_GameManager/)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: './' });
+      });
+    }
+  </script>
 </head>
 <body>
+  <noscript>This app needs JavaScript enabled.</noscript>
+
+  <!-- Sticky top bar with period + clock controls -->
   <header class="appbar">
     <div class="period">
       <label for="period">Period</label>
       <select id="period" aria-label="Period">
-        <option>1</option><option>2</option><option>3</option><option>4</option>
-        <option>OT</option>
+        <option>1</option><option>2</option><option>3</option><option>4</option><option>OT</option>
       </select>
     </div>
 
@@ -22,29 +42,29 @@
       <span id="clockDisplay">12:00</span>
     </div>
 
-    <div class="clock-ctrl">
-      <button id="startBtn" class="btn primary">▶︎</button>
-      <button id="pauseBtn" class="btn">❚❚</button>
-      <button id="resetBtn" class="btn">↺</button>
+    <div class="clock-ctrl" role="group" aria-label="Clock controls">
+      <button id="startBtn" class="btn primary" aria-label="Start clock">▶︎</button>
+      <button id="pauseBtn" class="btn" aria-label="Pause clock">❚❚</button>
+      <button id="resetBtn" class="btn" aria-label="Reset clock">↺</button>
     </div>
   </header>
 
   <main class="layout">
-    <!-- HOME ROW -->
+    <!-- HOME -->
     <section class="team-row" data-team="home">
       <div class="team-left">
-        <h2 contenteditable="true" class="team-name" id="homeName">HOME</h2>
+        <h2 id="homeName" class="team-name" contenteditable="true" spellcheck="false">HOME</h2>
         <div class="score-wrap">
-          <button class="btn ghost minus" data-action="minus" data-team="home">−</button>
-          <div class="score" id="homeScore" aria-live="polite">0</div>
+          <button class="btn ghost minus" data-action="minus" data-team="home" aria-label="Decrease home score">−</button>
+          <div id="homeScore" class="score" aria-live="polite">0</div>
           <div class="tos" role="group" aria-label="Home timeouts">
-            <input type="checkbox" id="hto1" /><label for="hto1"></label>
-            <input type="checkbox" id="hto2" /><label for="hto2"></label>
-            <input type="checkbox" id="hto3" /><label for="hto3"></label>
+            <input type="checkbox" id="hto1" /><label for="hto1" title="Home TO 1"></label>
+            <input type="checkbox" id="hto2" /><label for="hto2" title="Home TO 2"></label>
+            <input type="checkbox" id="hto3" /><label for="hto3" title="Home TO 3"></label>
           </div>
         </div>
       </div>
-      <div class="quick-scores">
+      <div class="quick-scores" role="group" aria-label="Home quick scores">
         <button class="btn score" data-team="home" data-points="1">+1</button>
         <button class="btn score" data-team="home" data-points="2">+2</button>
         <button class="btn score" data-team="home" data-points="3">+3</button>
@@ -54,21 +74,21 @@
       </div>
     </section>
 
-    <!-- AWAY ROW -->
+    <!-- AWAY -->
     <section class="team-row" data-team="away">
       <div class="team-left">
-        <h2 contenteditable="true" class="team-name" id="awayName">AWAY</h2>
+        <h2 id="awayName" class="team-name" contenteditable="true" spellcheck="false">AWAY</h2>
         <div class="score-wrap">
-          <button class="btn ghost minus" data-action="minus" data-team="away">−</button>
-          <div class="score" id="awayScore" aria-live="polite">0</div>
+          <button class="btn ghost minus" data-action="minus" data-team="away" aria-label="Decrease away score">−</button>
+          <div id="awayScore" class="score" aria-live="polite">0</div>
           <div class="tos" role="group" aria-label="Away timeouts">
-            <input type="checkbox" id="ato1" /><label for="ato1"></label>
-            <input type="checkbox" id="ato2" /><label for="ato2"></label>
-            <input type="checkbox" id="ato3" /><label for="ato3"></label>
+            <input type="checkbox" id="ato1" /><label for="ato1" title="Away TO 1"></label>
+            <input type="checkbox" id="ato2" /><label for="ato2" title="Away TO 2"></label>
+            <input type="checkbox" id="ato3" /><label for="ato3" title="Away TO 3"></label>
           </div>
         </div>
       </div>
-      <div class="quick-scores">
+      <div class="quick-scores" role="group" aria-label="Away quick scores">
         <button class="btn score" data-team="away" data-points="1">+1</button>
         <button class="btn score" data-team="away" data-points="2">+2</button>
         <button class="btn score" data-team="away" data-points="3">+3</button>
@@ -78,6 +98,7 @@
       </div>
     </section>
 
+    <!-- Utils -->
     <section class="row utils">
       <div class="possession" role="group" aria-label="Possession">
         <button id="posHome" class="btn toggle on">⬤ HOME</button>
@@ -86,8 +107,9 @@
       <button id="undoBtn" class="btn ghost">Undo last</button>
     </section>
 
+    <!-- Quick time set -->
     <section class="row quick-time">
-      <div class="time-presets">
+      <div class="time-presets" role="group" aria-label="Quick set time">
         <button class="btn tset" data-time="15:00">15:00</button>
         <button class="btn tset" data-time="12:00">12:00</button>
         <button class="btn tset" data-time="10:00">10:00</button>
@@ -95,15 +117,16 @@
         <button class="btn tset" data-time="02:00">02:00</button>
       </div>
       <div class="time-slider">
-        <input type="range" id="timeSlider" min="0" max="3600" step="1" value="720">
+        <input type="range" id="timeSlider" min="0" max="3600" step="1" value="720" />
         <span id="timeSliderLabel">12:00</span>
         <button id="useClockBtn" class="btn ghost">Use Clock</button>
       </div>
     </section>
 
-    <section class="log" id="log" aria-live="polite" aria-label="Game log"></section>
+    <!-- Game log -->
+    <section id="log" class="log" aria-live="polite" aria-label="Game log"></section>
 
-    <!-- ===== NEW: Advanced calculators (below current setup) ===== -->
+    <!-- Advanced calculators (below main setup) -->
     <section class="advanced">
       <details open class="panel">
         <summary>Timeout Planner</summary>
@@ -116,8 +139,8 @@
             </div>
           </div>
           <div>
-            <label class="lbl">Time Remaining</label>
-            <input id="toTime" type="text" inputmode="numeric" class="inp" value="02:00" aria-label="Time remaining (MM:SS)">
+            <label class="lbl">Time Remaining (MM:SS)</label>
+            <input id="toTime" type="text" inputmode="numeric" class="inp" value="02:00" aria-label="Time remaining" />
           </div>
           <div>
             <label class="lbl">Our Timeouts</label>
@@ -131,9 +154,9 @@
           <div>
             <label class="lbl">Assumptions</label>
             <div class="assumptions">
-              <label>Play clock <input id="playClock" class="inp small" type="number" value="40"></label>
-              <label>Sec per play <input id="secPerPlay" class="inp small" type="number" value="6"></label>
-              <label>Kneel sec <input id="kneelSec" class="inp small" type="number" value="2"></label>
+              <label>Play clock <input id="playClock" class="inp small" type="number" value="40" /></label>
+              <label>Sec per play <input id="secPerPlay" class="inp small" type="number" value="6" /></label>
+              <label>Kneel sec <input id="kneelSec" class="inp small" type="number" value="2" /></label>
             </div>
           </div>
         </div>
@@ -152,11 +175,11 @@
         <div class="grid two">
           <div>
             <label class="lbl">Target Points</label>
-            <input id="targetPts" class="inp" type="number" value="17" min="1" step="1">
+            <input id="targetPts" class="inp" type="number" value="17" min="1" step="1" />
           </div>
           <div>
             <label class="lbl">Max combos shown</label>
-            <input id="maxCombos" class="inp" type="number" value="30" min="5" step="5">
+            <input id="maxCombos" class="inp" type="number" value="30" min="5" step="5" />
           </div>
         </div>
         <div class="btn-row">
@@ -166,9 +189,9 @@
         <div id="comboOutput" class="output mono"></div>
       </details>
     </section>
-    <!-- ===== END Advanced ===== -->
   </main>
 
-  <script src="app.js" defer></script>
+  <!-- Scripts -->
+  <script src="./app.js" defer></script>
 </body>
 </html>
