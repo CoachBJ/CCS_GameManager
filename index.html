@@ -97,10 +97,76 @@
       <div class="time-slider">
         <input type="range" id="timeSlider" min="0" max="3600" step="1" value="720">
         <span id="timeSliderLabel">12:00</span>
+        <button id="useClockBtn" class="btn ghost">Use Clock</button>
       </div>
     </section>
 
     <section class="log" id="log" aria-live="polite" aria-label="Game log"></section>
+
+    <!-- ===== NEW: Advanced calculators (below current setup) ===== -->
+    <section class="advanced">
+      <details open class="panel">
+        <summary>Timeout Planner</summary>
+        <div class="grid two">
+          <div>
+            <label class="lbl">Mode</label>
+            <div class="btn-group">
+              <button id="modeDefense" class="btn toggle on">We’re on DEFENSE</button>
+              <button id="modeOffense" class="btn toggle">We have the ball</button>
+            </div>
+          </div>
+          <div>
+            <label class="lbl">Time Remaining</label>
+            <input id="toTime" type="text" inputmode="numeric" class="inp" value="02:00" aria-label="Time remaining (MM:SS)">
+          </div>
+          <div>
+            <label class="lbl">Our Timeouts</label>
+            <div class="btn-group">
+              <button class="btn toCount" data-val="0">0</button>
+              <button class="btn toCount" data-val="1">1</button>
+              <button class="btn toCount on" data-val="2">2</button>
+              <button class="btn toCount" data-val="3">3</button>
+            </div>
+          </div>
+          <div>
+            <label class="lbl">Assumptions</label>
+            <div class="assumptions">
+              <label>Play clock <input id="playClock" class="inp small" type="number" value="40"></label>
+              <label>Sec per play <input id="secPerPlay" class="inp small" type="number" value="6"></label>
+              <label>Kneel sec <input id="kneelSec" class="inp small" type="number" value="2"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="calcKneel" class="btn">Kneel-out check (they have ball)</button>
+          <button id="calcDefense" class="btn">DEF: When to use TOs</button>
+          <button id="useTO" class="btn primary">Use TO (log)</button>
+        </div>
+
+        <div id="toOutput" class="output"></div>
+      </details>
+
+      <details class="panel">
+        <summary>Score Combo Finder</summary>
+        <div class="grid two">
+          <div>
+            <label class="lbl">Target Points</label>
+            <input id="targetPts" class="inp" type="number" value="17" min="1" step="1">
+          </div>
+          <div>
+            <label class="lbl">Max combos shown</label>
+            <input id="maxCombos" class="inp" type="number" value="30" min="5" step="5">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button id="findCombos" class="btn">Find Combos</button>
+          <button id="copyCombos" class="btn ghost">Copy List</button>
+        </div>
+        <div id="comboOutput" class="output mono"></div>
+      </details>
+    </section>
+    <!-- ===== END Advanced ===== -->
   </main>
 
   <script src="app.js" defer></script>
