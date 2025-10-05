@@ -1,319 +1,86 @@
-// --- State ---
-
-:root {
-  --bg:#0b0f14; --fg:#e8eef5; --muted:#9fb0c0;
-  --acc:#2d66ff; --danger:#ff4d4d; --card:#121821; --line:#1c2430;
-  --tap:56px; /* minimum touch size */
+/* ===== THEME (Charlotte Christian blue/gray, pro UI) ===== */
+:root{
+  --bg:#0b1220; --fg:#e8eef5; --muted:#9fb0c0;
+  --acc:#2d66ff; --acc-2:#4fb1ff;
+  --danger:#ff4d4d; --card:#101827; --line:#1b2433;
+  --tap:56px; --radius:16px; --shadow:0 6px 20px rgba(0,0,0,.25);
 }
-@media (prefers-color-scheme: light){
-  :root{ --bg:#f7f9fc; --fg:#0c1116; --muted:#526173; --card:#ffffff; --line:#e7eaf0; }
+body[data-theme="light"]{
+  --bg:#f6f8fc; --fg:#0b1220; --muted:#55677b;
+  --card:#ffffff; --line:#dfe6ee; --acc:#2d66ff; --acc-2:#0a84ff;
+  --danger:#d92d2d;
 }
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Arial;}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Roboto,Arial}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-button{font:inherit;border:0;border-radius:14px;padding:0 16px;height:var(--tap);min-width:var(--tap);touch-action:manipulation}
-.btn{background:#223047;color:var(--fg)}
-.btn.primary{background:var(--acc);color:white;font-weight:700}
-.btn.ghost{background:transparent;border:2px solid var(--line)}
-.btn.toggle.on{background:var(--acc);color:#fff}
-.appbar{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--card);padding:12px env(safe-area-inset-right) 12px env(safe-area-inset-left);border-bottom:1px solid var(--line)}
+button{font:inherit;border:0;border-radius:14px;padding:0 16px;height:var(--tap);min-width:var(--tap);touch-action:manipulation;cursor:pointer}
+
+/* Buttons */
+.btn{background:linear-gradient(180deg,#18233a,#132034);color:var(--fg);border:1px solid var(--line);box-shadow:var(--shadow)}
+.btn.primary{background:linear-gradient(180deg,var(--acc),#1448e8);color:#fff;font-weight:700;border-color:transparent}
+.btn.ghost{background:transparent;border:2px solid var(--line);box-shadow:none}
+.btn.warn{background:linear-gradient(180deg,#3a1414,#2a0f0f);color:#ffdede;border:1px solid #572020}
+.btn.toggle.on{background:linear-gradient(180deg,var(--acc-2),var(--acc));color:#fff}
+.btn:active{transform:scale(.98)}
+
+/* App bar */
+.appbar{
+  position:sticky;top:0;z-index:5;
+  display:grid;grid-template-columns:auto 1fr auto auto;
+  gap:12px;align-items:center;
+  background:linear-gradient(180deg,#0e1830,#0b1220);
+  padding:12px env(safe-area-inset-right) 12px env(safe-area-inset-left);
+  border-bottom:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
 .clock{justify-self:center;font-variant-numeric:tabular-nums}
-#clockDisplay{font-size:42px;font-weight:800;letter-spacing:1px}
+#clockDisplay{font-size:44px;font-weight:800;letter-spacing:1px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.appbar-right{display:flex;gap:8px}
+
+/* Layout cards */
 .layout{display:flex;flex-direction:column;gap:12px;padding:12px}
-.team-row{display:grid;gap:10px;background:var(--card);padding:12px;border:1px solid var(--line);border-radius:16px}
+.team-row,.panel,.log,.time-slider{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.team-row{display:grid;gap:10px;padding:12px}
 .team-left{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px}
 .team-name{margin:0;font-size:18px;outline:none}
 .score-wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
-.score{font-size:40px;font-weight:900;text-align:center;min-width:88px}
+.score{font-size:42px;font-weight:900;text-align:center;min-width:96px}
 .minus{border-color:var(--danger);color:var(--danger)}
 .quick-scores{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .tos{display:grid;grid-template-columns:repeat(3,24px);gap:8px;align-items:center;justify-items:center}
 .tos input{display:none}
-.tos label{width:24px;height:24px;border-radius:6px;border:2px solid var(--line);display:inline-block;background:#182030}
+.tos label{width:24px;height:24px;border-radius:6px;border:2px solid var(--line);display:inline-block;background:#182030;box-shadow:inset 0 0 0 2px rgba(0,0,0,.2)}
 .tos input:checked + label{background:var(--acc)}
 
+/* Utility rows */
 .utils{display:flex;gap:10px;align-items:center;justify-content:space-between}
-.time-presets{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-.time-slider{display:flex;align-items:center;gap:10px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.time-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.time-slider{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px}
 input[type="range"]{width:100%}
-.log{max-height:30vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px}
+.log{max-height:30vh;overflow:auto;padding:8px}
+
+/* Advanced panels */
+.advanced{display:flex;flex-direction:column;gap:12px}
+.panel{padding:12px}
+.panel>summary{cursor:pointer;font-weight:700;margin:-12px -12px 12px -12px;padding:12px;border-bottom:1px solid var(--line)}
+.lbl{display:block;margin-bottom:6px;color:var(--muted);font-size:.9rem}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.inp{height:var(--tap);border-radius:12px;border:1px solid var(--line);background:#0e141d;color:var(--fg);padding:0 12px;min-width:120px}
+.inp.small{min-width:64px;width:80px;text-align:center}
+.assumptions{display:flex;gap:10px;flex-wrap:wrap}
+.grid.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.output{margin-top:10px;border:1px dashed var(--line);border-radius:12px;padding:10px;white-space:pre-wrap}
+.output.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+  background:rgba(20,27,45,.96);color:#fff;border:1px solid var(--line);
+  padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);
+  opacity:0;pointer-events:none;transition:opacity .2s;
+  max-width:90vw;text-align:center;z-index:20;
+}
+.toast.show{opacity:1}
+
+/* Responsive */
 @media (min-width:900px){ .layout{max-width:820px;margin:0 auto} }
-
-
-const s = {
-  clockMs: 12 * 60 * 1000, running: false, lastTick: 0,
-  home: 0, away: 0, pos: 'home',
-  stack: [] // for Undo
-};
-const el = id => document.getElementById(id);
-const fmt = ms => {
-  const t = Math.max(0, Math.round(ms/1000));
-  const m = Math.floor(t/60).toString().padStart(2,'0');
-  const s = (t%60).toString().padStart(2,'0');
-  return `${m}:${s}`;
-};
-const parseMMSS = (str) => {
-  const m = /^(\d{1,2}):(\d{2})$/.exec(str.trim());
-  if (!m) return null;
-  const min = +m[1], sec = +m[2];
-  if (sec>59) return null;
-  return (min*60+sec)*1000;
-};
-const render = () => {
-  el('clockDisplay').textContent = fmt(s.clockMs);
-  el('homeScore').textContent = s.home;
-  el('awayScore').textContent = s.away;
-  el('posHome').classList.toggle('on', s.pos==='home');
-  el('posAway').classList.toggle('on', s.pos==='away');
-  localStorage.setItem('gm_state', JSON.stringify(s));
-};
-
-// --- Clock loop ---
-function tick(ts) {
-  if (s.running) {
-    if (!s.lastTick) s.lastTick = ts;
-    const dt = ts - s.lastTick; s.lastTick = ts;
-    if (s.clockMs > 0) s.clockMs -= dt;
-    else s.running = false;
-    render();
-  }
-  requestAnimationFrame(tick);
-}
-
-// --- Score buttons & minus ---
-['home','away'].forEach(team=>{
-  document.querySelectorAll(`.team-row[data-team="${team}"] .btn.score`)
-    .forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const pts = Number(btn.dataset.points);
-        s.stack.push({team, pts});
-        s[team] += pts;
-        render();
-        log(`${team.toUpperCase()} +${pts}`);
-      });
-    });
-  document.querySelector(`.minus[data-team="${team}"]`)
-    .addEventListener('click', ()=>{
-      s.stack.push({team, pts:-1});
-      s[team] = Math.max(0, s[team]-1);
-      render();
-      log(`${team.toUpperCase()} −1`);
-    });
-});
-
-function setTimeFromString(str){
-  const [m,sec] = str.split(':').map(Number);
-  s.clockMs = (m*60+sec)*1000; s.running=false; s.lastTick=0; render();
-}
-document.querySelectorAll('.tset').forEach(b=>b.onclick = ()=> setTimeFromString(b.dataset.time));
-el('timeSlider').addEventListener('input', e=>{
-  const v = Number(e.target.value);
-  el('timeSliderLabel').textContent = fmt(v*1000);
-});
-el('timeSlider').addEventListener('change', e=>{
-  s.clockMs = Number(e.target.value)*1000; s.running=false; s.lastTick=0; render();
-});
-el('useClockBtn').onclick = ()=>{
-  el('toTime').value = fmt(s.clockMs);
-};
-
-el('startBtn').onclick = ()=>{ s.running = true; s.lastTick = 0; render(); };
-el('pauseBtn').onclick = ()=>{ s.running = false; render(); };
-el('resetBtn').onclick = ()=>{ setTimeFromString('12:00'); };
-
-el('posHome').onclick = ()=>{ s.pos='home'; render(); };
-el('posAway').onclick = ()=>{ s.pos='away'; render(); };
-
-el('undoBtn').onclick = ()=>{
-  const last = s.stack.pop();
-  if (!last) return;
-  s[last.team] = Math.max(0, s[last.team]-last.pts);
-  render();
-};
-
-// --- Log helper ---
-function log(text){
-  const div = document.createElement('div');
-  div.textContent = `${new Date().toLocaleTimeString()}  ${text}`;
-  el('log').prepend(div);
-}
-
-// --- Restore persisted state ---
-try {
-  const saved = JSON.parse(localStorage.getItem('gm_state')||'null');
-  if (saved) Object.assign(s, saved);
-} catch {}
-render(); requestAnimationFrame(tick);
-
-// --- Remove any legacy PAT vs 2-pt helper ---
-const pat = document.getElementById('pat-helper'); if (pat) pat.remove();
-
-/* ===========================================================
-   ADVANCED: Timeout Planner + Score Combo Finder
-   =========================================================== */
-
-// ----- UI helpers -----
-const $ = (sel) => document.querySelector(sel);
-const $all = (sel) => Array.from(document.querySelectorAll(sel));
-
-function mmssToSec(mmss) {
-  const ms = parseMMSS(mmss);
-  return ms ? Math.round(ms/1000) : null;
-}
-function secToMMSS(sec) {
-  sec = Math.max(0, Math.round(sec));
-  const m = Math.floor(sec/60).toString().padStart(2,'0');
-  const s = (sec%60).toString().padStart(2,'0');
-  return `${m}:${s}`;
-}
-function btnGroupToggle(btns, clicked) {
-  btns.forEach(b=>b.classList.toggle('on', b===clicked));
-}
-
-// ----- Timeout Planner state -----
-let mode = 'defense'; // 'defense' | 'offense' (offense panel is informational for now)
-$('#modeDefense').onclick = (e)=>{ mode='defense'; btnGroupToggle([$(`#modeDefense`), $(`#modeOffense`)], e.target); };
-$('#modeOffense').onclick =  (e)=>{ mode='offense'; btnGroupToggle([$(`#modeDefense`), $(`#modeOffense`)], e.target); };
-
-let ourTOs = 2;
-$all('.toCount').forEach(b=>{
-  b.onclick = (e)=>{ ourTOs = Number(e.target.dataset.val); btnGroupToggle($all('.toCount'), e.target); };
-});
-
-// ----- Timeout math (simple, fast, coach-friendly) -----
-// Assumptions are configurable in UI.
-
-function simulateKneel(timeSec, defTOs, kneels=3, kneelSec=2, playClock=40) {
-  // Simulates opponent kneeling up to 3 times. Defense can burn timeouts after plays.
-  let t = timeSec;
-  let tos = defTOs;
-  for (let i=0; i<kneels && t>0; i++){
-    t -= kneelSec; if (t<=0) break;
-    if (tos>0){ tos -= 1; /* stop the 40s runoff */ }
-    else { t -= Math.min(playClock, t); }
-  }
-  return Math.max(0, Math.round(t));
-}
-
-function simulateDefense(timeSec, defTOs, downs=3, secPerPlay=6, playClock=40) {
-  // You are on DEFENSE vs normal plays; plan TO usage to save clock.
-  let t = timeSec, tos = defTOs;
-  const plan = [];
-  for (let d=1; d<=downs && t>0; d++){
-    // They run a play:
-    t -= Math.min(secPerPlay, t);
-    if (t<=0){ plan.push(`After play ${d}: 00:00`); break; }
-    if (tos>0){
-      tos -= 1;
-      plan.push(`Use TO after play ${d} → ${secToMMSS(t)} left`);
-      // No 40s runoff
-    } else {
-      // Let clock roll to next snap:
-      const burn = Math.min(playClock, t);
-      t -= burn;
-      plan.push(`No TO after play ${d} (burn ~${burn}s) → ${secToMMSS(t)} left`);
-    }
-  }
-  return { timeLeft: Math.max(0, Math.round(t)), plan };
-}
-
-// ----- Wire Timeout Planner -----
-const out = el('toOutput');
-
-$('#calcKneel').onclick = ()=>{
-  const time = mmssToSec($('#toTime').value);
-  if (time==null) { out.textContent = 'Enter time as MM:SS'; return; }
-  const playClock = Number($('#playClock').value||40);
-  const secPerPlay = Number($('#secPerPlay').value||6);
-  const kneelSec = Number($('#kneelSec').value||2);
-
-  const left = simulateKneel(time, ourTOs, 3, kneelSec, playClock);
-  const canBurnAll = left === 0;
-  out.textContent =
-    `KNEEL-OUT CHECK (they have ball)\n` +
-    `Time: ${secToMMSS(time)} | Our TOs: ${ourTOs} | Kneel sec: ${kneelSec} | Play clock: ${playClock}\n\n` +
-    (canBurnAll
-      ? `They CAN kneel out the clock if they kneel 3× and you use your TOs as needed.`
-      : `They CANNOT fully kneel it out.\nEstimated time left after 3 kneels: ${secToMMSS(left)}.`);
-};
-
-$('#calcDefense').onclick = ()=>{
-  const time = mmssToSec($('#toTime').value);
-  if (time==null) { out.textContent = 'Enter time as MM:SS'; return; }
-  const playClock = Number($('#playClock').value||40);
-  const secPerPlay = Number($('#secPerPlay').value||6);
-
-  const { timeLeft, plan } = simulateDefense(time, ourTOs, 3, secPerPlay, playClock);
-  out.textContent =
-    `DEFENSE CLOCK PLAN\n` +
-    `Time: ${secToMMSS(time)} | Our TOs: ${ourTOs} | Sec/play: ${secPerPlay} | Play clock: ${playClock}\n\n` +
-    plan.join('\n') + `\n\nEstimated after 3 plays: ${secToMMSS(timeLeft)} left.`;
-};
-
-$('#useTO').onclick = ()=>{
-  // Log and (optionally) toggle one of the timeout checkboxes for the team you choose.
-  log(`USE TO`);
-  // If you want auto-toggle: check the first unchecked of your side (HOME by default)
-  const boxes = ['hto1','hto2','hto3'].map(id=>document.getElementById(id));
-  const nxt = boxes.find(b=>!b.checked);
-  if (nxt) nxt.checked = true;
-};
-
-// ===== Score Combo Finder =====
-const PLAYS = [
-  { pts:8, label:'TD+2' },
-  { pts:7, label:'TD+PAT' },
-  { pts:6, label:'TD' },
-  { pts:3, label:'FG' },
-  { pts:2, label:'Safety' }
-];
-
-// Build unique combos that sum to target (non-increasing order by index).
-function scoreCombos(target) {
-  const out = [];
-  const counts = Array(PLAYS.length).fill(0);
-  function dfs(rem, startIdx){
-    if (rem === 0) {
-      out.push(counts.slice());
-      return;
-    }
-    for (let i=startIdx; i<PLAYS.length; i++){
-      const v = PLAYS[i].pts;
-      if (v <= rem){
-        counts[i]++; dfs(rem - v, i); counts[i]--;
-      }
-    }
-  }
-  dfs(target, 0);
-  return out;
-}
-function formatCombo(counts){
-  const parts = [];
-  for (let i=0;i<counts.length;i++){
-    if (counts[i] > 0){
-      parts.push(`${PLAYS[i].label}×${counts[i]}`);
-    }
-  }
-  const playsTotal = counts.reduce((a,b)=>a+b,0);
-  const points = counts.reduce((sum,c,i)=>sum + c*PLAYS[i].pts, 0);
-  return { text: `${parts.join(' + ')}  (${playsTotal} plays, ${points} pts)`, playsTotal };
-}
-
-const comboOut = el('comboOutput');
-$('#findCombos').onclick = ()=>{
-  const target = Math.max(1, Math.floor(Number($('#targetPts').value||0)));
-  const maxShow = Math.max(5, Math.floor(Number($('#maxCombos').value||30)));
-  const combos = scoreCombos(target)
-    .map(formatCombo)
-    .sort((a,b)=> a.playsTotal - b.playsTotal || a.text.localeCompare(b.text))
-    .slice(0, maxShow);
-  if (combos.length === 0){
-    comboOut.textContent = 'No exact combos for that target.';
-  } else {
-    comboOut.textContent = combos.map(c=>`• ${c.text}`).join('\n');
-  }
-};
-$('#copyCombos').onclick = async()=>{
-  if (!comboOut.textContent) return;
-  try { await navigator.clipboard.writeText(comboOut.textContent); log('Copied combos'); }
-  catch { /* ignore */ }
-};
