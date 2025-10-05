@@ -14,11 +14,9 @@
 
   <!-- Styles -->
   <link rel="stylesheet" href="./style.css" />
-
   <title>CCS Game Manager</title>
 
   <script>
-    // Service worker (works under /CCS_GameManager/)
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js', { scope: './' });
@@ -26,10 +24,10 @@
     }
   </script>
 </head>
-<body>
+<body data-theme="dark">
   <noscript>This app needs JavaScript enabled.</noscript>
 
-  <!-- Sticky top bar with period + clock controls -->
+  <!-- Sticky top bar -->
   <header class="appbar">
     <div class="period">
       <label for="period">Period</label>
@@ -46,6 +44,11 @@
       <button id="startBtn" class="btn primary" aria-label="Start clock">▶︎</button>
       <button id="pauseBtn" class="btn" aria-label="Pause clock">❚❚</button>
       <button id="resetBtn" class="btn" aria-label="Reset clock">↺</button>
+    </div>
+
+    <div class="appbar-right">
+      <button id="themeBtn" class="btn ghost" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+      <button id="resetGameBtn" class="btn warn" aria-label="Reset game (hold)" title="Hold to reset">Reset</button>
     </div>
   </header>
 
@@ -107,25 +110,25 @@
       <button id="undoBtn" class="btn ghost">Undo last</button>
     </section>
 
-    <!-- Quick time set -->
-<section class="row quick-time">
-  <div class="time-presets" role="group" aria-label="Quick set time">
-    <button class="btn tset" data-time="12:00">12:00</button>
-    <button class="btn tset" data-time="10:00">10:00</button>
-    <button class="btn tset" data-time="08:00">08:00</button>
-    <button class="btn tset" data-time="02:00">02:00</button>
-  </div>
-  <div class="time-slider">
-    <input type="range" id="timeSlider" min="0" max="720" step="1" value="720" />
-    <span id="timeSliderLabel">12:00</span>
-    <button id="useClockBtn" class="btn ghost">Use Clock</button>
-  </div>
-</section>
+    <!-- Quick time set (max 12:00) -->
+    <section class="row quick-time">
+      <div class="time-presets" role="group" aria-label="Quick set time">
+        <button class="btn tset" data-time="12:00">12:00</button>
+        <button class="btn tset" data-time="10:00">10:00</button>
+        <button class="btn tset" data-time="08:00">08:00</button>
+        <button class="btn tset" data-time="02:00">02:00</button>
+      </div>
+      <div class="time-slider">
+        <input type="range" id="timeSlider" min="0" max="720" step="1" value="720" />
+        <span id="timeSliderLabel">12:00</span>
+        <button id="useClockBtn" class="btn ghost">Use Clock</button>
+      </div>
+    </section>
 
     <!-- Game log -->
     <section id="log" class="log" aria-live="polite" aria-label="Game log"></section>
 
-    <!-- Advanced calculators (below main setup) -->
+    <!-- Advanced calculators -->
     <section class="advanced">
       <details open class="panel">
         <summary>Timeout Planner</summary>
@@ -174,7 +177,7 @@
         <div class="grid two">
           <div>
             <label class="lbl">Target Points</label>
-            <input id="targetPts" class="inp" type="number" value="17" min="1" step="1" />
+            <input id="targetPts" class="inp" type="number" value="1" min="1" step="1" />
           </div>
           <div>
             <label class="lbl">Max combos shown</label>
@@ -189,6 +192,9 @@
       </details>
     </section>
   </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" aria-live="polite"></div>
 
   <!-- Scripts -->
   <script src="./app.js" defer></script>
