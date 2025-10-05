@@ -108,20 +108,19 @@
     </section>
 
     <!-- Quick time set -->
-    <section class="row quick-time">
-      <div class="time-presets" role="group" aria-label="Quick set time">
-        <button class="btn tset" data-time="15:00">15:00</button>
-        <button class="btn tset" data-time="12:00">12:00</button>
-        <button class="btn tset" data-time="10:00">10:00</button>
-        <button class="btn tset" data-time="08:00">08:00</button>
-        <button class="btn tset" data-time="02:00">02:00</button>
-      </div>
-      <div class="time-slider">
-        <input type="range" id="timeSlider" min="0" max="3600" step="1" value="720" />
-        <span id="timeSliderLabel">12:00</span>
-        <button id="useClockBtn" class="btn ghost">Use Clock</button>
-      </div>
-    </section>
+<section class="row quick-time">
+  <div class="time-presets" role="group" aria-label="Quick set time">
+    <button class="btn tset" data-time="12:00">12:00</button>
+    <button class="btn tset" data-time="10:00">10:00</button>
+    <button class="btn tset" data-time="08:00">08:00</button>
+    <button class="btn tset" data-time="02:00">02:00</button>
+  </div>
+  <div class="time-slider">
+    <input type="range" id="timeSlider" min="0" max="720" step="1" value="720" />
+    <span id="timeSliderLabel">12:00</span>
+    <button id="useClockBtn" class="btn ghost">Use Clock</button>
+  </div>
+</section>
 
     <!-- Game log -->
     <section id="log" class="log" aria-live="polite" aria-label="Game log"></section>
