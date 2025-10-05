@@ -1,1 +1,1 @@
-# CCS_GameManager
+# scoring-pwa
